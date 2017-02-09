@@ -111,6 +111,7 @@
     "@types/bluebird": "^3.0.35",
     "@types/jasmine": "^2.5.38",
     "@types/node": "^6.0.48",
+    "@types/pouchdb": "^5.4.28",
     "@types/webpack": "^2.0.0",
     "@types/whatwg-fetch": "^0.0.32",
     "aurelia-protractor-plugin": "^1.0.1",
