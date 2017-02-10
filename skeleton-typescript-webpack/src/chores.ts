@@ -1,14 +1,25 @@
 //import {computedFrom} from 'aurelia-framework';
-import * as pouchdb from 'pouchdb';
+import * as PouchDB from 'pouchdb';
 
-export class Welcome {
+export class Chores {
   heading: string = 'Welcome to the Awesome Navigation App';
   firstName: string = 'John';
   lastName: string = 'Doe';
   previousValue: string = this.fullName;
 
   db = new PouchDB('urchores');
+  remoteCouch = 'https://ersambehesterenceseright:97d53f2497d842d5779126ffe5c8f56f33024c57@softwareshop.cloudant.com/urchores';
 
+  constructor() {
+
+    this.db.sync(this.remoteCouch, {
+      live: true
+    }).on('change', function (change) {
+      // yo, something changed!
+    }).on('error', function (err) {
+      // yo, we got an error! (maybe the user went offline?)
+    });
+  }
 
   //Getters can't be directly observed, so they must be dirty checked.
   //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.
@@ -20,9 +31,18 @@ export class Welcome {
   }
 
   submit() {
-    this.previousValue = this.fullName;
-    alert(`Welcome, ${this.fullName}!`);
-  }
+  var person = {
+    _id: new Date().toISOString(),
+    firstName: this.firstName,
+    lastName: this.lastName
+  };
+  this.db.put(person, function callback(err, result) {
+    if (!err) {
+      console.log('Successfully posted a person!');
+    } else {
+      console.log(err);
+    }
+  });  }
 
   canDeactivate(): boolean | undefined {
     if (this.fullName !== this.previousValue) {
