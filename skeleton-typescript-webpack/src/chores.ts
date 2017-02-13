@@ -31,18 +31,18 @@ export class Chores {
   }
 
   submit() {
-  var person = {
-    _id: new Date().toISOString(),
-    firstName: this.firstName,
-    lastName: this.lastName
-  };
-  this.db.put(person, function callback(err, result) {
-    if (!err) {
-      console.log('Successfully posted a person!');
-    } else {
-      console.log(err);
-    }
-  });  }
+    var person = {
+      _id: new Date().toISOString(),
+      firstName: this.firstName,
+      lastName: this.lastName
+    };
+    
+    this.db.put(person).then(function(result) {
+        console.log('Successfully posted a person!');
+      }).catch(function(err) {
+        console.log(err);
+      });  
+  }
 
   canDeactivate(): boolean | undefined {
     if (this.fullName !== this.previousValue) {
